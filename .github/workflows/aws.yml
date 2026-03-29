@@ -3,20 +3,21 @@ on: workflow_dispatch
 
 jobs:
  build-job:
-  runs-on: ubuntu-latest
-  steps:
-   - name: checkout code
-     uses: actions/checkout@v6
-     with:
-       ref: main
-   - name: get pem file
-     run: |
-       echo "${{ secrets.SheOps_Secret_key }}"> key.pem
-       chmod 400 key.pem
-   - name: cp app.py
-     run: scp-o StrictHostKeyChecking=no -1 key.pem app.py ec2-user@65.2.70.35:/home/ec2-user/
-   - name: cp req.txt
-     run: scp-o StrictHostKeyChecking=no i key.pem requirements.txt ec2-user@65.2.70.35:/home/ec2-user/
-   - name: run app
-     run: ssh -o StrictHostKeyChecking=no i key.pem ec2-user@65.2.70.35 "cd /home/ec2-user && python3m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
-    python3 app.py
+   runs-on: ubuntu-latest
+   steps:
+    - name: checkout code
+      uses: actions/checkout@v6
+      with:
+        ref: main
+    - name: get pem file
+      run: |
+        echo "${{ secrets.SheOps_Secret_key }}"> key.pem
+        chmod 400 key.pem
+    - name: cp app.py
+      run: scp-o StrictHostKeyChecking=no -1 key.pem app.py ec2-user@65.2.70.35:/home/ec2-user/
+    - name: cp req.txt
+      run: scp-o StrictHostKeyChecking=no i key.pem requirements.txt ec2-user@65.2.70.35:/home/ec2-user/
+    - name: run app
+      run: ssh -o StrictHostKeyChecking=no i key.pem ec2-user@65.2.70.35 "cd /home/ec2-user && python3m venv venv && source venv/bin/activate && pip3 install -r requirements.txt && python3 app.py"
+      
+      
