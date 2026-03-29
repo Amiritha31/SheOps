@@ -10,7 +10,7 @@ jobs:
      with:
        ref: main
    - name: get pem file
-     run:|
+     run: |
        echo "${{ secrets.SheOps_Secret_key }}"> key.pem
        chmod 400 key.pem
    - name: cp app.py
